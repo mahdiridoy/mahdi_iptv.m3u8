@@ -1,0 +1,21 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="btv.bd" tvg-name="BTV" tvg-logo="https://example.com/btv.png" tvg-chno="1",BTV
+http://example.com/btv/stream.m3u8
+#EXTINF:-1 tvg-id="atn.bd" tvg-name="ATN News" tvg-logo="https://example.com/atn.png" tvg-chno="2",ATN News
+http://example.com/atn/stream.m3u8
+#EXTINF:-1 tvg-id="channeli.bd" tvg-name="Channel I" tvg-logo="https://example.com/channeli.png" tvg-chno="3",Channel I
+http://example.com/channeli/stream.m3u8
+#EXTINF:-1 tvg-name="Jamuna TV" tvg-logo="https://example.com/jamuna.png" tvg-chno="4",Jamuna TV
+http://example.com/jamuna/stream.m3u8
+#EXTINF:-1 tvg-name="NTV" tvg-logo="https://example.com/ntv.png" tvg-chno="7",NTV
+http://example.com/ntv/stream.m3u8
+#EXTINF:-1 tvg-id="unknown1" tvg-name="Unknown Channel" tvg-logo="" tvg-chno="",Unknown Channel
+http://example.com/unknown/stream.m3u8
+#EXTINF:-1 tvg-name="Bangla Drama" group-title="Drama",Bangla Drama
+http://example.com/bangla_drama/stream.m3u8
+#EXTINF:-1 tvg-id="adult1" tvg-name="XXX Adult Channel" tvg-logo="https://example.com/adult.png",XXX Adult Channel
+http://example.com/adult/stream.m3u8
+#EXTINF:-1 tvg-name="Clean Kids TV" tvg-logo="https://example.com/kids.png",Clean Kids TV
+http://example.com/kids/stream.m3u8
+#EXTINF:-1 tvg-name="Sports Channel" tvg-logo="https://example.com/sports.png" group-title="Sports",Sports Channel
+http://example.com/sports/stream.m3u8

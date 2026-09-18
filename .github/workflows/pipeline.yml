@@ -1,0 +1,81 @@
+name: IPTV Pipeline Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "*.py"
+      - "*.m3u"
+      - ".github/workflows/pipeline.yml"
+
+concurrency:
+  group: pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build M3U Playlist
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate Python syntax
+        run: |
+          python -m py_compile adult_filter.py
+          python -m py_compile logos.py
+          python -m py_compile config.py
+          python -m py_compile utils.py
+          python -m py_compile order_m3u.py
+          python -m py_compile run_pipeline.py
+          echo "All Python files have valid syntax"
+
+      - name: Run full pipeline
+        run: python run_pipeline.py
+        env:
+          PYTHONUNBUFFERED: 1
+
+      - name: Validate output file
+        run: |
+          if [ ! -f "mahdi_iptv.m3u8" ]; then
+            echo "::error::Output file mahdi_iptv.m3u8 was not generated"
+            exit 1
+          fi
+          CHANNEL_COUNT=$(grep -c "^#EXTINF" mahdi_iptv.m3u8 || true)
+          echo "Generated playlist contains $CHANNEL_COUNT channels"
+          if [ "$CHANNEL_COUNT" -lt 10 ]; then
+            echo "::error::Output file has fewer than 10 channels - pipeline may have failed"
+            exit 1
+          fi
+          echo "## Pipeline Output Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Channels generated: $CHANNEL_COUNT" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Output file: mahdi_iptv.m3u8" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload M3U8 artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mahdi_iptv-playlist-${{ github.sha }}
+          path: mahdi_iptv.m3u8
+          retention-days: 30
+          if-no-files-found: error

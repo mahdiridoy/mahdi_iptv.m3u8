@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables (secrets)
+.env
+.env.*
+
+# Input/Output files
+scan.m3u
+mahdi_iptv.m3u8
+output.m3u
+merged.m3u
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Testing
+.coverage
+htmlcov/
+pytestdebug.log
+
+# Temporary files
+*.tmp
+*.bak
+*.log
